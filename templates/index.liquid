@@ -1,0 +1,43 @@
+<!-- /templates/index.liquid -->
+{% comment %}
+
+  This is the homepage of your site.
+
+  More info on global variables (available on all templates):
+    - http://docs.shopify.com/themes/liquid-variables/global
+{% endcomment %}
+
+<div class="table home-page">
+{% for link in linklists.homepage-ctas.links %}
+  {% if forloop.index == 1  %}
+    <a href="{{ link.url }}" class="homepage-cta shell table-cell" style="background-image: url(https://cdn.shopify.com/s/files/1/0985/8124/files/nonesuch-website-v5_03.jpg?14897380251182405487)">
+      <div class="cont"><h3>Est. 1978</h3><h2>Home Accessories, Gifts, & Jewelry</h2>{{ 'white-shell.png' | asset_url | img_tag }}</div>
+    </a>
+    <div class="table-cell space"></div>
+  {% elsif forloop.index == 3 %}
+    <a href="/apps/giftregistry" class="homepage-cta standard table-cell" style="background-image: url(https://cdn.shopify.com/s/files/1/0985/8124/files/nonesuch-website-v5_05.jpg?15061952951384666053)">
+      <div class="cont">
+        <h3>Find A</h3>
+        <h2>Registry</h2>
+        <div class="button">Learn More</div>
+      </div>
+    </a>
+  {% endif %}
+{% endfor %}
+</div>
+
+<div class="table home-page">
+{% for link in linklists.homepage-ctas.links %}
+  {% if forloop.index == 2  %}
+    <a href="{{ link.url }}" class="homepage-cta standard table-cell" style="background-image: url({{ link.object.metafields.Page.cta-image }})">
+      <div class="cont">{{ link.object.metafields.Page.cta-html }}</div>
+    </a>
+    <div class="table-cell space"></div>
+  {% elsif forloop.index == 4 %}
+    <a href="{{ link.url }}" class="homepage-cta blur table-cell" style="background-image: url({{ link.object.metafields.Page.cta-image }})">
+      {% comment %}<img src="{{ link.object.metafields.Page.cta-image }}" alt="">{% endcomment %}
+      <div class="cont">{{ link.object.metafields.Page.cta-html }}</div>
+    </a>
+  {% endif %}
+{% endfor %}
+</div>

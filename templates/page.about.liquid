@@ -1,0 +1,25 @@
+<div class="image-header desktop">
+  <div class="table-cell standard" style="background-image: url({{ page.metafields.PageHeader.bg-image }})">
+    <div class="cont">
+      <h3>Three<br>Generations <span>Of</span></h3>
+      <h2>Elegance</h2>
+    </div>
+  </div>
+  <div class="table-cell space"></div>
+  <div class="table-cell pic" style="background-image: url({{ page.metafields.PageHeader.featured-image }})">
+    {% comment %}<img src="{{ page.metafields.PageHeader.featured-image }}">{% endcomment %}
+  </div>
+</div>
+
+<div class="image-header mobile">
+  <img src="{{ page.metafields.PageHeader.featured-image }}" alt="">
+  <div class="cont">
+    <h3>Three Generations <span>Of</span></h3>
+    <h2>Elegance</h2>
+  </div>
+</div>
+
+
+<div class="cont about">
+  {{ page.content }}
+</div>

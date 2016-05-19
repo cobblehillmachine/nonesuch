@@ -1,0 +1,31 @@
+<!-- /templates/article.liquid -->
+
+
+{% comment %}BLOG{% endcomment %}
+
+<div class="breadcrumb table blog-header">
+  <div class="table-cell">
+    <span><a href="/blogs/blog">{{ 'arrow_black_left.png' | asset_url | img_tag }} Back to Blog</a></span>
+  </div>
+  <div class="table-cell">
+    <div class="social">
+      <h3>Share</h3>
+      <ul>
+        {% if article.image %}
+          <li><a href="https://pinterest.com/pin/create/button/?url={{shop.url}}{{article.url}}&media={{ article | img_url: 'medium' }}&description={{article.title}} by Non(e)such" target="_blank"><i class="fa fa-pinterest"></i></a></li>
+        {% endif %}
+        <li><a href="https://www.facebook.com/sharer/sharer.php?u={{shop.url}}{{article.url}}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="http://twitter.com/home?status=Check out this blog post by Non(e)such, {{article.title}} {{shop.url}}{{article.url}}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+         <li><a href="mailto: ?subject=A friend wants you to check out this blog post by Non(e)such!&body={{article.title}} at {{shop.url}}{{article.url}}" target="_blank"><i class="fa fa-envelope"></i></a></li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+<div class="skinny-cont single-blog-post">
+<h3>{{ article.created_at | date: "%B %-d, %Y" }}</h3>
+<h2>{{article.title}}</h2>
+{% if article.image %}<img src="{{ article | img_url: 'large' }}">{% endif %}
+{{article.content}}
+
+</div>

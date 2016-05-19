@@ -1,0 +1,91 @@
+<!-- /templates/page.contact.liquid -->
+{% comment %}
+
+  This page template is a requirement if you are submitting your theme to the Shopify Theme Store.
+  Be sure to select page.contact as the template from the admin page to have this template take effect.
+
+  For information on adding more fields, visit:
+    - http://docs.shopify.com/support/configuration/store-customization/adding-fields-to-the-liquid-contact-form
+
+{% endcomment %}
+
+<div class="image-header">
+  <div class="table-cell standard" style="background-image:url({{ page.metafields.PageHeader.bg-image }})">
+
+    <div class="cont">
+      <h3>Our</h3>
+      <h2>Services</h2>
+    </div>
+  </div>
+  <div class="table-cell space"></div>
+  <div class="table-cell">
+      <div id="map-canvas"></div>
+  </div>
+</div>
+
+
+
+<div class="table border">
+  <div class="address-hours address table-cell">
+    <div class="top">
+      <a href="https://www.google.com/maps/place/2754+Devine+St,+Columbia,+SC+29205/data=!4m2!3m1!1s0x88f8bab3882f17f9:0x9ab3ba3d515f0695?sa=X&ved=0ahUKEwiwrdrnm9LLAhWMwYMKHV0sC50Q8gEIGzAA" target=_blank>
+        <div><span>2754</span> Devine St</div>
+        <div>{{ 'columbia.jpg' | asset_url | img_tag }}</div>
+        <div>S. Carolina</div>
+      </a>
+    </div>
+    <div class="bottom">
+      <div>{803} 254-0772</div>
+    </div>
+  </div>
+
+  <div class="address-hours hours table-cell">
+    <div>Monday-Friday <span>10am-5:30pm</span></div>
+    <div>Saturday <span>10am-3pm</span></div>
+    <span>Always Open by Appointment</span>
+  </div>
+</div>
+
+<div class="contact-form-wrapper">
+  <h1>Contact Us</h1>
+  {% form 'contact' %}
+
+    {% comment %}
+      Successful message
+    {% endcomment %}
+    {% if form.posted_successfully? %}
+      <p class="note form-success">
+        {{ 'contact.form.post_success' | t }}
+      </p>
+    {% endif %}
+
+    {{ form.errors | default_errors }}
+
+    {% assign name_attr = 'contact.form.name' | t | handle %}
+    {% comment %}<label for="ContactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>{% endcomment %}
+    <input type="text" id="ContactFormName" class="input-full" name="contact[{{ name_attr }}]" placeholder="Name" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+
+    {% assign name_attr = 'contact.form.subject' | t | handle %}
+    <select id="contactFormQuestionType" name="contact[subject]">
+      <option value="" selected="selected">Interested In...</option>
+       <option value="registry">Registry</option>
+       <option value="orders">Orders</option>
+       <option value="press">Press</option>
+       <option value="wholesale">Wholesale</option>
+       <option value="general">General</option>
+   </select>
+
+    {% assign name_attr = 'contact.form.phone' | t | handle %}
+    {% comment %}<label for="ContactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>{% endcomment %}
+    <input type="tel" id="ContactFormPhone" class="input-half first" name="contact[{{ name_attr }}]" placeholder="Telephone" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+   {% comment %} <label for="ContactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>{% endcomment %}
+    <input type="email" id="ContactFormEmail" class="input-half last" name="contact[email]" placeholder="Email Address" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+
+    {% comment %}<label for="ContactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>{% endcomment %}
+    <textarea rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="Your Message">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+    <div><button type="submit" class="button right black" value="Send Message ">Send Message</button></div>
+
+  {% endform %}
+</div>

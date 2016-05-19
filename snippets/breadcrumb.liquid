@@ -1,0 +1,67 @@
+<!-- /snippets/breadcrumb.liquid -->
+{% comment %}
+  Documentation - http://docs.shopify.com/support/your-website/navigation/creating-a-breadcrumb-navigation
+{% endcomment %}
+{% unless template == 'index' or template == 'cart' %}
+<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+
+  {% if product.title == "Gift Card" %}
+    <a href="/collections/best-seller" title="{{ 'general.breadcrumbs.home_link_title' | t }}">Shop</a> / <span>Gift Card</span>
+  {% elsif template contains 'product' %}
+    <a href="/collections/best-seller" title="{{ 'general.breadcrumbs.home_link_title' | t }}">Shop</a>
+    {% for collection in product.collections %}
+      {% if collection.template_suffix == 'top-level' and collection.title != "Designers" %}
+        {% assign rightCollection = collection %}
+      {% endif %}
+    {% endfor %}
+
+    <span aria-hidden="true"> / </span>
+    <a href="/collections/{{rightCollection.handle}}">{{ rightCollection.title }}</a>
+
+    <span aria-hidden="true"> / </span>
+    <span>{{ product.type }}</span>
+
+  {% elsif template contains 'collection' and collection.handle %}
+
+    <span aria-hidden="true"> / </span>
+    {% if current_tags %}
+      {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+      {{ collection.title | link_to: url }}
+      <span aria-hidden="true"> / </span>
+      <span>{{ current_tags | join: " + " }}</span>
+    {% else %}
+      <span>{{ collection.title }}</span>
+    {% endif %}
+
+
+  {% elsif template == 'blog' %}
+    <a href="/" title="{{ 'general.breadcrumbs.home_link_title' | t }}">Home</a>
+    <span aria-hidden="true"> / </span>
+    {% if current_tags %}
+      {{ blog.title | link_to: blog.url }}
+      <span aria-hidden="true"> / </span>
+      <span>{{ current_tags | join: " + " }}</span>
+    {% else %}
+    <span>{{ blog.title }}</span>
+    {% endif %}
+
+  {% elsif template == 'article' %}
+    <a href="/" title="{{ 'general.breadcrumbs.home_link_title' | t }}">Home</a>
+    <span aria-hidden="true"> / </span>
+    {{ blog.title | link_to: blog.url }}
+    <span aria-hidden="true"> / </span>
+    <span>{{ article.title }}</span>
+
+  {% elsif template contains 'page' %}
+
+   <span aria-hidden="true">&rsaquo;</span>
+   <span>{{ page.title }}</span>
+
+  {% else %}
+
+   <span aria-hidden="true">&rsaquo;</span>
+   <span>{{ page_title }}</span>
+
+  {% endif %}
+</nav>
+{% endunless %}

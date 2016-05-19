@@ -1,0 +1,30 @@
+<div class="image-header desktop">
+  <div class="table-cell standard" style="background-image: url({{ page.metafields.PageHeader.bg-image }})">
+    <div class="cont">
+      <h3>Upcoming</h3>
+      <h2>Events</h2>
+    </div>
+  </div>
+  <div class="table-cell space"></div>
+  <div class="table-cell pic" style="background-image: url({{ page.metafields.PageHeader.featured-image }})">
+  </div>
+</div>
+
+<div class="image-header mobile">
+  <img src="{{ page.metafields.PageHeader.featured-image }}" alt="">
+  <div class="cont">
+    <h3>Upcoming</h3>
+    <h2>Events</h2>
+  </div>
+</div>
+
+<div class="cont events">
+
+  {% for event in blogs['events'].articles %}
+    {% cycle '<div class="table-row">', '', '</div><div class="table-row">', '' %}
+      <div class="event">
+        {{event.content}}
+      </div>
+    {% cycle '<div class="table-cell space"></div>', ''  %}
+  {% endfor %}
+</div>

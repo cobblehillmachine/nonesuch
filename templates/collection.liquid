@@ -1,0 +1,88 @@
+<!-- /templates/collection.liquid -->
+{% comment %}
+
+  For more information on collection tags:
+    - http://docs.shopify.com/themes/liquid-variables/collection
+
+{% endcomment %}
+
+{% paginate collection.products by 16 %}
+
+
+{% include 'top-categories' %}
+
+{% for product in collection.products %}
+  {% for collection in product.collections %}
+    {% if collection.template_suffix == 'top-level' %}
+      {% assign top_level = collection %}
+    {% endif %}
+  {% endfor %}
+ {% endfor %}
+
+<header class="collection section-header left">
+  <div class="table">
+    <div class="table-cell">
+      <h1><a href="/collections/{{top_level.handle}}">{{top_level.title}} / </a>{{ collection.title }}</h1>
+    </div>
+    <div class="table-cell">
+      {% include 'grid-actions' %}
+    </div>
+  </div>
+
+
+  {% if collection.description != blank %}
+    <div class="description">
+      <p>{{ collection.description }}</p>
+    </div>
+  {% endif %}
+</header>
+
+
+<div class="table">
+  <div class="table-cell sidebar">
+
+      <h3>{{ collection.title }} Designers</h3>
+        <ul>
+        {% for product_vendor in collection.all_vendors %}
+          <li><a href="/collections/{{product_vendor | handleize}}">{{ product_vendor }}</a></li>
+        {% endfor %}
+      </ul>
+
+  </div>
+
+  <div class="grid table-cell">
+
+
+    {% for product in collection.products %}
+      <div class="product grid_item three-across {{top_level}}" id="product-{{ forloop.index | plus:paginate.current_offset }}">
+        {% include 'product-grid-item' %}
+      </div>
+    {% endfor %}
+
+
+    {% if paginate.next %}
+      <div id="more" class="product more"><p>&darr; <a href="{{ paginate.next.url }}">More</a></p></div>
+    {% endif %}
+
+    <div id="product-list-foot"></div>
+  </div>
+</div>
+
+{% endpaginate %}
+<script>
+Shopify.queryParams = {};
+if (location.search.length) {
+  for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+    aKeyValue = aCouples[i].split('=');
+    if (aKeyValue.length > 1) {
+      Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+    }
+  }
+}
+jQuery('#sort-by')
+  .val('{{ collection.sort_by | default: collection.default_sort_by | escape }}')
+  .bind('change', function() {
+    Shopify.queryParams.sort_by = jQuery(this).val();
+    location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+  });
+</script>

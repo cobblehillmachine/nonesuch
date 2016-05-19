@@ -1,0 +1,84 @@
+<!-- /templates/search.liquid -->
+{% comment %}
+
+  To return only products or pages in results:
+    - http://docs.shopify.com/manual/configuration/store-customization/return-only-product-in-storefront-search-results
+    - Or manually add type=product or type=page to the search URL as a parameter
+
+{% endcomment %}
+
+
+{% comment %}
+  Check to enforce respond.js
+{% endcomment %}
+{% assign respond_js_secret_key = shop.domain | md5 %}
+{% unless search.terms == respond_js_secret_key %}
+
+{% comment %}
+  Avoid accessing search.results before the opening paginate tag.
+  If you do, the pagination of results will be broken.
+{% endcomment %}
+{% paginate search.results by 12 %}
+
+<div class="search-page">
+
+  <div class="search-header">
+    <h1>Search Our Store</h1>
+    {% include 'search-bar' %}
+  </div>
+
+  {% if search.performed %}
+    {% if search.results_count == 0 %}
+      <div class="search-results-header no-results">
+        <h3>{{ 'general.search.no_results_html' | t: terms: search.terms }}</h3>
+      </div>
+    {% else %}
+      <div class="search-results-header">
+        <h3>{{ 'general.search.results_for_html' | t: terms: search.terms }}</h3>
+      </div>
+    {% endif %}
+  {% endif %}
+
+
+
+  {% if search.performed %}
+    {% if search.results_count > 0 %}
+      <div class="search-results">
+        <div class="grid">
+          {% for product in search.results %}
+            {% if product.object_type == 'product' %}
+              <div class="product grid_item four-across {{product.collection}}" id="product-{{ forloop.index | plus:paginate.current_offset }}">
+                {% include 'product-grid-item' %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="grid">
+          {% for post in search.results %}
+            {% if post.object_type != 'product' %}
+              <div class="product grid_item two-across {{product.collection}}" id="product-{{ forloop.index | plus:paginate.current_offset }}">
+                {% include 'search-result' %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+
+  {% if paginate.next %}
+    <div id="more" class="product more"><p>&darr; <a href="{{ paginate.next.url }}">More</a></p></div>
+  {% endif %}
+
+  <div id="product-list-foot"></div>
+
+</div>
+
+
+
+{% endpaginate %}
+
+{% else %}
+  {% include 'respond' %}
+  {% layout none %}
+{% endunless %}

@@ -1,0 +1,124 @@
+<!-- /templates/collection.liquid -->
+{% comment %}
+
+  For more information on collection tags:
+    - http://docs.shopify.com/themes/liquid-variables/collection
+
+{% endcomment %}
+
+{% paginate collection.products by 12 %}
+
+
+{% include 'top-categories' %}
+
+<header class="collection section-header {% if collection.title != 'Best Sellers'  %} left {% endif %}">
+  <div class="table">
+    <div class="table-cell">
+      {% if current_tags %}
+        {% for tag in current_tags %}
+          <h1><a href="/collections/collections">Collections / </a>{{ tag | replace:'-', ' ' }}</h1>
+        {% endfor %}
+      {% else %}
+      <h1>{{ collection.title }}</h1>
+      {% endif %}
+    </div>
+    {% if collection.title != 'Designers' and collection.title != 'Best Sellers' %}
+      <div class="table-cell">
+
+          {% include 'grid-actions' %}
+
+      </div>
+    {% endif %}
+    </div>
+  {% if collection.description != blank %}
+    <div class="description">
+      <p>{{ collection.description }}</p>
+    </div>
+  {% endif %}
+
+</header>
+
+
+<div class="table">
+  {% if collection.title != 'Best Sellers'  %}
+  <div class="table-cell sidebar">
+    <h3>Filter by</h3>
+    <ul>
+      {% if collection.title == 'Designers' %}
+        <div class="">
+          {% for vendor in collection.all_vendors %}
+            <li><a href="/collections/{{ vendor | handle }}">{{ vendor }}</a></li>
+          {% endfor %}
+        </div>
+      {% elsif collection.handle == 'collections' %}
+        <div class="">
+          {% for link in linklists.collection-list.links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="">
+          {% for product_type in collection.all_types %}
+            <li>{{ product_type | link_to_type }}</li>
+          {% endfor %}
+        </div>
+       {% endif %}
+     </ul>
+    <br>
+    {% if collection.title != 'Designers' and collection.title != "Collections"%}
+      <h3>{{ collection.title }} Designers</h3>
+        <ul>
+        {% for product_vendor in collection.all_vendors %}
+          <li><a href="/collections/{{product_vendor | handleize}}">{{ product_vendor }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %} {% comment %}end if collection.title != 'Designers'{% endcomment %}
+  </div>
+  {% endif %} {% comment %} end if collection.title != 'Best Sellers'{% endcomment %}
+  <div class="grid table-cell">
+    {% if collection.title == 'Best Sellers' %}
+      {% include 'grid-actions' %}
+    {% endif %}
+    {% if collection.title == 'Designers' %}
+        {% for vendor in collection.all_vendors %}
+          <div class="product grid_item three-across {{vendor}}">
+            {% include 'designer-grid-item' %}
+          </div>
+        {% endfor %}
+    {% else %}
+      {% for product in collection.products %}
+        <div class="product grid_item {% if collection.title == 'Best Sellers' %} four-across {% else %} three-across {% endif %} {{product.collection}}" id="product-{{ forloop.index | plus:paginate.current_offset }}">
+          {% include 'product-grid-item' %}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if collection.title != 'Designers' %}
+  {% if paginate.next %}
+    <div id="more" class="product more"><p>&darr; <a href="{{ paginate.next.url }}">More</a></p></div>
+  {% endif %}
+
+  <div id="product-list-foot"></div>
+{% endif %}
+  </div>
+</div>
+
+
+{% endpaginate %}
+
+<script>
+Shopify.queryParams = {};
+if (location.search.length) {
+  for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+    aKeyValue = aCouples[i].split('=');
+    if (aKeyValue.length > 1) {
+      Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+    }
+  }
+}
+jQuery('#sort-by')
+  .val('{{ collection.sort_by | default: collection.default_sort_by | escape }}')
+  .bind('change', function() {
+    Shopify.queryParams.sort_by = jQuery(this).val();
+    location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+  });
+</script>

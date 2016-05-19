@@ -1,0 +1,120 @@
+<!-- /templates/blog.liquid -->
+{% paginate blog.articles by 5 %}
+
+
+
+{% comment %}PRESS PAGE{% endcomment %}
+{% if blog.title == "Press" %}
+
+  <div class="gray-box"><h2>In The News</h2></div>
+
+  {% for article in blog.articles %}
+    <div class="table press-item center">
+      <div class="table-cell">
+        {% if article.image %}{{ article | img_url: 'medium' | img_tag }}{% endif %}
+      </div>
+      <div class="table-cell">
+        {{article.content}}
+      </div>
+    </div>
+  {% endfor %}
+
+{% endif %}
+
+
+{% comment %}Blog PAGE{% endcomment %}
+{% if blog.title == "Blog" %}
+
+  <div class="gray-box blog">
+    <h2>Shop Talk</h2>
+    <p>the non(e)such shop blog</p>
+  </div>
+
+  <div class="top-cats blog">
+    {% for tag in blog.all_tags %}
+      <li><a href="/blogs/blog/tagged/{{tag | handleize}}">{{ tag }}</a></li>
+    {% endfor %}
+  </div>
+
+  {% for article in blog.articles %}
+    <div class="table blog-item {% for tag in article.tags %}{{tag | handleize}} {% endfor %}">
+      <div class="table-cell">
+        {% if article.image %}{{ article | img_url: 'medium' | img_tag }}{% endif %}
+      </div>
+      <div class="table-cell">
+        <h3>{{article.published_at | date: "%B %-d, %Y"}}</h3>
+        <h2>{{article.title}}</h2>
+        {{article.excerpt_or_content | truncatewords: 50}}
+        <p><a class="button" href="{{article.url}}">See Post</a></p>
+      </div>
+    </div>
+  {% endfor %}
+
+{% endif %}
+
+{% comment %}RETIRED PATTERNS PAGE{% endcomment %}
+{% if blog.title == "Retired Patterns" %}
+{% comment %}<div class="top-cats">
+  {% for link in linklists.category-nav.links %}
+    <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+  {% endfor %}
+</div>{% endcomment %}
+<div class="retired-patterns">
+  <div class="collection section-header">
+    {% if current_tags %}
+      <h1><a href="/blogs/retired-patterns">Retired / </a>{{ current_tags }}</h1>
+    {% else %}
+    <div class="skinny-cont">
+      <h1>Complete Your Collection</h1>
+      <p>Unfortunately, many of the different companies  and lines we carry discontinue patterns, or in some cases they have gone out of business. If you never completed your Bridal Registry, broke a piece of your china pattern, or adding to an old collection check with us.  Non(e)such has many odds and ends of favorite discontinued patterns. Please contact us as we have much more available at a discounted price than what is currently represented under retired patterns on our website.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="grid">
+    {% if current_tags %}
+      {% for article in blog.articles %}
+        <a href="{{article.url}}" class="grid_item four-across retired">
+          {% if article.image %}<img src="{{ article | img_url: 'medium' }}">{% endif %}
+          <h3>{{article.title}}</h3>
+        </a>
+      {% endfor %}
+    {% else %}
+
+      {% for tag in blog.all_tags %}
+
+        {% for collection in collections %}
+          {% if tag == collection.title %}
+            {% assign collectionObject = collection %}
+          {% endif %}
+        {% endfor %}
+
+
+        <a class="grid_item four-across retired" href="/blogs/retired-patterns/tagged/{{ tag | handle }}">
+            <img src="{{ collectionObject.image | img_url: 'medium'  }}">
+            <h3>{{ tag }}</h3>
+        </a>
+
+        {% assign collectionObject = '' %}
+
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+
+{% if paginate.pages > 1 %}
+
+  <div class="pagination center">
+    {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+  </div>
+{% endif %}
+
+
+{% endpaginate %}
+
+
+
+
+

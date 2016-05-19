@@ -1,0 +1,15 @@
+
+{% for collection in collections %}
+    {% if vendor == collection.title %}
+      {% assign collectionObject = collection %}
+    {% endif %}
+{% endfor %}
+
+
+<a href="/collections/retired/{{ vendor | handle }}" class="grid__image">
+    <img src="{{ collectionObject.image | img_url: 'medium'  }}">
+
+    <h3>{{ vendor }}</h3>
+</a>
+
+{% assign collectionObject = '' %}

@@ -1,0 +1,33 @@
+<!-- /snippets/subcollection-grid-item.liquid -->
+{% comment %}
+
+  This snippet is used to showcase each subcollection during the loop,
+  'for product in collection.products' in collection.liquid.
+
+  A liquid variable (grid_item_width) is set just before the this
+  snippet is included to change the size of the container.
+  Once the variable is set on a page, all future instances of this
+  snippet will use that width. Overwrite the variable to adjust this.
+
+  Example
+    - assign grid_item_width = 'large--one-quarter medium--one-half'
+
+{% endcomment %}
+
+{% paginate collections by 500 %}
+{% for product in collection.products %}
+  {% if product.tags contains tag %}
+     {% assign tagProduct = product %}
+  {% endif %}
+{% endfor %}
+{% endpaginate %}
+
+<a href="/collections/retired/{{tag | handle}}" class="grid__image">
+    <img src="{{ tagProduct.featured_image | img_url: 'medium'}}">
+    <h3>{{ tag }}</h3>
+
+</a>
+
+{% assign tagProduct = '' %}
+
+

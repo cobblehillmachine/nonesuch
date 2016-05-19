@@ -1,0 +1,7 @@
+<!-- /snippets/top-categories.liquid -->
+
+<div class="top-cats">
+  {% for link in linklists.category-nav.links %}
+    <li><a href="{{ link.url }}" class="{{ link.title | handleize }}">{{ link.title }}</a></li>
+  {% endfor %}
+</div>

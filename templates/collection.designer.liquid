@@ -1,0 +1,106 @@
+<!-- /templates/collection.liquid -->
+
+{% include 'top-categories' %}
+
+
+<header class="collection section-header">
+  {% if current_tags %}
+  {% comment %}on a subcollection page already{% endcomment %}
+    <h1><a href="/collections/designers">Designers / </a><a href="/collections/{{ collection.handle }}">{{ collection.title }}</a> / {{current_tags }}</h1>
+    {% if collection.description != blank %}
+      <div class="description">
+        <p>{{ collection.description }}</p>
+      </div>
+    {% endif %}
+  {% else %}
+  {% comment %}not on a subcollection page{% endcomment %}
+    <h1><a href="/collections/designers">Designers / </a>{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="description">
+        <p>{{ collection.description }}</p>
+      </div>
+    {% endif %}
+  {% endif %}
+</header>
+
+{% comment %}exclude the Collection Tags from Designer Tags{% endcomment %}
+{% assign modifiedTags = collection.all_tags | size %}
+{% for tag in collection.all_tags %}
+  {% if tag == "For Her" %}
+    {% assign modifiedTags = decrement modifiedTags %}
+  {% else if tag == "For Him"}
+    {% assign modifiedTags = decrement modifiedTags %}
+  {% else if tag == "Housewarming"}
+    {% assign modifiedTags = decrement modifiedTags %}
+  {% else if tag == "Graduation"}
+    {% assign modifiedTags = decrement modifiedTags %}
+  {% else if tag == "Under $25"}
+    {% assign modifiedTags = decrement modifiedTags %}
+  {% else if tag == "Under $50"}
+    {% assign modifiedTags = decrement modifiedTags %}
+  {% endif %}
+{% endfor %}
+
+
+{% if current_tags %}
+{% comment %}on a subcollection page already{% endcomment %}
+  {% include 'grid-actions' %}
+{% else %}
+{% comment %}not on a subcollection page{% endcomment %}
+  {% if modifiedTags == 0 %}
+    {% include 'grid-actions' %}
+  {% endif %}
+{% endif %}
+
+
+<div class="grid">
+
+  {% if current_tags %}
+  {% comment %}on a subcollection page already{% endcomment %}
+    {% for product in collection.products %}
+      <div class="product grid_item four-across {{top_level}}" id="product-{{ forloop.index | plus:paginate.current_offset }}">
+        {% include 'product-grid-item' %}
+      </div>
+    {% endfor %}
+  {% else %}
+  {% comment %}not on a subcollection page{% endcomment %}
+    {% if modifiedTags > 0 %}
+    {% comment %}if subcollections{% endcomment %}
+      {% for tag in collection.all_tags %}
+        {% if tag == "For Her" or tag == "For Him" or tag == "Housewarming" or tag == "Graduation" or tag == "Under $25" or tag == "Under $50"}
+          {% break %}
+        {% else %}
+        <div class="product grid_item four-across {{tag}}">
+          {% include 'subcollection-grid-item' %}
+        </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+    {% comment %}if no subcollections{% endcomment %}
+      {% for product in collection.products %}
+      <div class="product grid_item four-across {{top_level}}" id="product-{{ forloop.index | plus:paginate.current_offset }}">
+        {% include 'product-grid-item' %}
+      </div>
+    {% endfor %}
+    {% endif %}
+  {% endif %}
+</div>
+
+
+<script>
+Shopify.queryParams = {};
+if (location.search.length) {
+  for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+    aKeyValue = aCouples[i].split('=');
+    if (aKeyValue.length > 1) {
+      Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+    }
+  }
+}
+jQuery('#sort-by')
+  .val('{{ collection.sort_by | default: collection.default_sort_by | escape }}')
+  .bind('change', function() {
+    Shopify.queryParams.sort_by = jQuery(this).val();
+    location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+  });
+</script>

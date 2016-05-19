@@ -1,0 +1,6 @@
+{% for link in linklists.homepage-ctas.links %}
+  <div class="homepage-cta">
+      <li>{{ link.title }}</li>
+      {% comment %}<img src="{{ link.object.metafields.Page.cta-image }}">{% endcomment %}
+  </div>
+{% endfor %}

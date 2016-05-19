@@ -1,0 +1,1056 @@
+//////////////////////////////////
+//////////////////////////////////
+/////// VARIABLES & MIXINS ///////
+//////////////////////////////////
+//////////////////////////////////
+
+/////// COLORS ///////
+$border: #e7e7e7;
+$gray: #e7e7e7;
+$darkgray: #cfcfcf;
+$hover: #91b2a1;
+
+/////// WIDTHS ///////
+@mixin wide-cont {width: 95%; margin: 0 auto; max-width: 1600px;
+  @media #{$tablet} {  width: 90%;}
+}
+@mixin skinny-cont {  width: 75%; margin: 0 auto;
+  @media #{$tablet} {  width: 90%;}
+}
+
+/////// MEDIA QUERIES ///////
+$tablet: "only screen and (max-width: 770px)";
+$phone: "only screen and (max-width: 500px)";
+
+/////// FONTS ///////
+@mixin brandon-medium { font-family: "brandon-grotesque",sans-serif; font-style: normal; font-weight: 500; }
+@mixin brandon-bold { font-family: "brandon-grotesque",sans-serif; font-style: normal; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-size: 14px;}
+@mixin brandon-black { font-family: "brandon-grotesque",sans-serif; font-style: normal; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; font-size: 10px;}
+
+@mixin kepler-bold  { font-family: "kepler-std-display",serif;font-style: normal;font-weight: 700; letter-spacing: 0; font-size: 40px;}
+@mixin kepler-regular { font-family: "kepler-std-display",serif; font-style: normal; font-weight: 400;}
+@mixin kepler-italic {  font-family: "kepler-std-semicondensed-dis",serif;font-style: italic;font-weight: 700; letter-spacing: 0;}
+
+@mixin cursive {  font-family: "bickham-script-pro",sans-serif;font-style: normal;font-weight: 400; text-transform: none; letter-spacing: 0;}
+
+
+/////// MIXINS ///////
+@mixin transition($args...) {-webkit-transition: $args;-moz-transition: $args;-ms-transition: $args;-o-transition: $args;transition: $args;}
+
+@mixin transform($args...) {-webkit-transform: $args;-moz-transform: $args;-ms-transform: $args;-o-transform: $args;transform: $args;}
+
+@mixin browser-appearance($args...) {-webkit-appearance: $args;-moz-appearance: $args;-ms-appearance: $args;-o-appearance: $args;appearance: $args;}
+
+@mixin tablet {
+  @media only screen and (max-width: 900px) {@content;}
+}
+@mixin phone {
+  @media only screen and (max-width: 500px) {@content;}
+}
+
+@mixin gray-box { background-color: $gray;  outline: 2px solid white; outline-offset: -20px; padding: 50px 60px; text-align: center; }
+.gray-box { @include gray-box;
+  &.blog p { @include kepler-italic; font-size: 18px;}
+}
+
+@mixin link-fix { border-bottom: 0; padding-bottom: 0;}
+
+@mixin black-arrow {  content:'';background-image: url(../assets/arrow_black.png); display: inline-block; width: 13px; height: 8px; background-repeat: no-repeat;background-size: contain; margin-left: 8px;}
+@mixin white-arrow {  content:'';background-image: url(../assets/arrow_white.png); display: inline-block; width: 13px; height: 8px; background-repeat: no-repeat;background-size: contain; margin-left: 8px;}
+
+/////// LINKS AND INPUTS ///////
+a{ text-decoration: none;  cursor: pointer; color: inherit; @include transition(all 0.2s ease); padding-bottom: 1px; border-bottom: 1px solid black; line-height: 24px;
+  &:hover { color: $hover; border-color: $hover;}
+}
+.press-item a, button, .button, .btn, #signup-button, input[type="submit"], input[type="button"] { border: 2px solid black; @include brandon-black; font-size: 10px; padding: 14px 25px; display: inline-block; @include browser-appearance(none); background-color: white;@include transition(all 0.2s ease); cursor: pointer; line-height: normal; border-radius: 0;
+  &:after { @include black-arrow;}
+  &:hover { background-color: $hover; border-color: $hover; color: white;
+    &:after { @include white-arrow;}
+  }
+  &.black { background-color: black; color: white;
+    &:after { @include white-arrow;}
+    &:hover { background-color: $hover; border-color: $hover;}
+  }
+  @media #{$tablet} { font-size: 10px;}
+}
+input[type="text"],input[type="email"], input[type="tel"],input[type="number"], input[type="search"], input[type="password"], select,textarea {  @include browser-appearance(none); border-radius: 0; border: 2px solid black; padding: 10px; background-color: white; resize: none;}
+select {  background-image: url(../assets/caret-down.png); background-repeat: no-repeat; background-position: 95% 50%; background-size: 10px; min-width: 100px; padding: 10px 20px 10px 10px;}
+label { display: block; @include brandon-black; }
+table { border-collapse: collapse;}
+*:focus { border: 0;  outline:none;}
+select:focus, textarea:focus {  border: 2px solid black;}
+button:focus, a.button:focus {  border: 2px solid $hover;}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0; }
+
+
+body, html {  width: 100%; margin: 0; padding: 0; background: white; position: relative;}
+body { overflow-x: hidden;  position: relative; @include kepler-regular; color: #3b3837;min-height: 100%;}
+body * {  box-sizing: border-box;}
+img { max-width: 100%; height: auto; display: block;}
+ul {  margin: 0; padding: 0}
+.hidden { display: none;}
+.skinny-cont {  @include skinny-cont;}
+.wide-cont {  @include wide-cont;}
+.center { text-align: center;}
+
+//////////////////////////////////
+//////////////////////////////////
+///////////// GLOBAL /////////////
+//////////////////////////////////
+//////////////////////////////////
+.table {  display: table; width: 100%;table-layout: fixed;
+  @media #{$tablet} { width: 100%; display: block;}
+}
+.table-cell {display: table-cell; vertical-align: middle;
+  &.standard {position: relative;  background-size: cover; background-position: 50% 50%;padding: 135px 0px; text-align: center;width: 33%;
+    .cont { text-align: center; background: white; outline: 2px solid $border; outline-offset: -10px; padding: 45px 35px;  display: inline-block; margin: 0 auto;}
+    @media #{$tablet} { width: 100%; display: block; margin-bottom: 20px;}
+  }
+  &.space { width: 20px; background: white;}
+  @media #{$tablet} { width: 100%; display: block; margin-bottom: 20px; }
+}
+
+li {  display: inline-block; list-style: none;}
+
+#PageContainer {  @include wide-cont; border: 0;@include kepler-regular;@include transition(0.2s right ease); background: white;
+  @media #{$tablet} { min-width: 100%; min-height: 100%;background-color: #fff;position: relative;top: 0;bottom: 100%;right: 0;z-index: 1;
+    &.open {  right: 200px;}
+  }
+}
+ @media #{$tablet} {
+  #about-us .wrapper.main-content {  width: 100%;}
+  .wrapper.main-content { width: 90%; margin: 0 auto;}
+ }
+
+.hidden, .visually-hidden { display: none;}
+
+h3 {  @include brandon-bold; font-size: 14px; margin: 0; color: black;
+  @media #{$tablet} { font-size: 12px;}
+}
+h2, h1 {  @include kepler-bold; font-size: 40px; margin: 0; color: black; letter-spacing: 1px;
+  @media #{$phone} {  font-size: 34px;}
+}
+p  {font-size: 18px; letter-spacing: 1px; line-height :24px;}
+
+.overlay {  top: 0; left: 0; width: 100%; height: 100%;opacity: 0; @include transition(all 0.2s ease); padding: 20px; background: black; color: white; position: absolute;
+  .cont {position: absolute;top: 50%; left: 50%; @include transform(translate(-50%, -50%)); width: 85%;
+    @media #{$tablet} { top: auto; left: auto; @include transform(none); width: 100%;position: relative; }
+  }
+  h2, h3 {  color: white;
+    @media #{$tablet} { color: black;}
+  }
+  h3 {  font-size: 12px;}
+  div.cont p { font-size: 16px; margin-bottom: 0;}
+  @media #{$tablet} { opacity: 1; width: auto; height: auto; padding: 10px 0;position: relative; background: white; color: black;}
+}
+
+.grid_item {  display: inline-block; vertical-align: top; position: relative; margin: 20px 1.25%;
+  &.two-across {  width: 47%; text-align: left;
+    @media #{$phone} { width: 100%; margin: 20px auto;}
+  }
+  &.three-across { width: 30%; text-align: center; vertical-align: top;
+    @media #{$tablet} { width: 46%;}
+  }
+  &.four-across { width: 21%; text-align: center; vertical-align: bottom;
+    @media #{$tablet} { width: 30%; vertical-align: top;}
+    @media #{$phone} { width: 46%;}
+  }
+  &:hover .overlay {  opacity: 1;}
+}
+
+.image-header { margin-bottom: 20px; display: table; width: 100%;
+  .cont {  padding: 60px 40px; position: relative;
+    span {  @include kepler-italic; font-size: 24px; text-transform: lowercase; display: block;}
+    @media #{$tablet} { width: 90%; display: block; margin: -90px auto 0; background: white;outline: 2px solid $border; outline-offset: -10px; padding: 40px 30px; text-align: center;}
+  }
+  .table-cell.pic { background-position: 50% 13%; background-size: cover;}
+  &.desktop {
+    @media #{$tablet} { display: none;}
+  }
+  &.mobile { display: none;
+    @media #{$tablet} { display: block;}
+  }
+}
+
+.pagination { text-align: center; padding: 30px 0;
+  span {  padding: 0 5px;}
+}
+
+// NEW
+.sidebar {  width: 250px; vertical-align: top;
+  li {  display: block;}
+  a { border-bottom: 0; }
+  ul {
+     @media #{$tablet} { display: none;}
+  }
+  h3 {
+    @media #{$tablet} {display: inline-block; padding-right: 30px; background-image: url(../assets/caret-down.png); background-repeat: no-repeat; background-position: 95% 50%; background-size: 10px;}
+  }
+  @media #{$tablet} { margin-bottom: 0;}
+}
+.table-cell.grid {  vertical-align: top;}
+
+
+//////////////////////////////////
+//////////////////////////////////
+///////////// HEADER /////////////
+//////////////////////////////////
+//////////////////////////////////
+.utility-nav, .main-nav, .footer-nav, .utility-footer { display: table; width: 100%;
+  ul {  display: table-cell; text-align: left; vertical-align: middle;
+    &:last-child {  text-align: right;
+      @media #{$phone} {  text-align: center;}
+    }
+    @media #{$phone} {  display: block; text-align: center; margin: 20px auto;}
+  }
+  li {  vertical-align: middle;}
+}
+
+.utility-nav { padding: 10px 0;
+  li  {  @include kepler-bold; font-size: 14px; padding-right: 15px;}
+  img { max-width: 15px; display: inline-block; vertical-align: middle; margin-right: 5px; @include transition(0.2s all ease);}
+  .masked.icon img {  background-color: black;}
+  .masked.icon:hover img {  background-color: $hover;}
+  span {  display: none; vertical-align: middle;   overflow: hidden; line-height: normal;}
+  i { font-size: 18px; vertical-align: middle; margin-right: 5px;}
+  a:hover i { color: $hover;}
+  @media #{$tablet} { display: none;}
+}
+
+.main-nav, .utility-nav, .footer-nav, .utility-footer, .top-cats, .filter-by, .pagination {
+  a { @include link-fix;}
+}
+.main-nav { padding: 0px 0 20px; margin-top: -45px;
+  ul {  width: 33%; vertical-align: bottom;}
+  li {  width: 49%; text-align: center; @include brandon-bold; font-size: 16px; position: relative; cursor: pointer; padding: 10px 0; }
+  ul:first-child, ul:last-child {
+    li {  margin-bottom: 20px;}
+  }
+  ul:nth-child(2n) { width: auto;
+    li {  width: 100%;}
+    img { width: 250px; margin: 0 auto;}
+  }
+  ul.dropdown { display: none; position: absolute; width: 100%; top: 100%;left: 0; background-color: white; border: 2px solid black; padding: 10px; z-index: 12; text-align: center;
+    a {  width: 100%; @include kepler-italic; font-size: 20px; text-transform: none; padding: 10px 0; letter-spacing: 0; display: block;}
+
+    &:before{border: solid;border-color: black transparent;border-width: 9px 9px 0 9px;top: 0px;content: "";left: 50%;@include transform(translate(-50%, 0));position: absolute;z-index: 99;}
+  }
+  li:hover ul.dropdown {  display: block;}
+  @media #{$tablet} { display: none;}
+}
+
+//////////////////////////////////
+//////////////////////////////////
+///////// MOBILE HEADER //////////
+//////////////////////////////////
+//////////////////////////////////
+.mobile-header { display: none; padding: 20px 5%; width: 100%;
+
+  .table-cell:first-child { display: table-cell;
+    img { max-width: 140px;}
+  }
+  .table-cell:last-child { text-align: right; cursor: pointer; display: table-cell;
+    img { max-width: 18px;}
+    span, img { display: inline; vertical-align: middle;}
+  }
+  span {  @include brandon-bold; font-size: 10px; margin-right: 5px;}
+  @media #{$tablet} { display: table;}
+}
+//////////////////////////////////
+//////////////////////////////////
+/////////// MOBILE NAV ///////////
+//////////////////////////////////
+//////////////////////////////////
+.mobile-nav { background-color: black; color: white; width: 200px;height: 100%;position: absolute;top: 0;right: -200px;bottom: 0;z-index: 0; text-align: center; padding: 30px; @include transition(0.2s right ease);
+  a { @include link-fix;}
+  &.open { right: 0;}
+  .utility { margin-bottom: 10px;
+    li {  margin: 0 5px; vertical-align: top;}
+    img { max-width: 20px;}
+    form {  display: none;}
+  }
+  .main, .bottom {
+    li { display: block; @include brandon-bold; }
+  }
+  .main {
+    li {   font-size: 16px;padding: 8px 0; }
+  }
+  .bottom {
+    li {  font-size: 10px;padding: 5px 0;}
+  }
+  hr {  width:40px; border: 0; background: white; height: 2px; margin: 10px auto;}
+}
+
+
+
+//////////////////////////////////
+//////////////////////////////////
+///////////// FOOTER /////////////
+//////////////////////////////////
+//////////////////////////////////
+.address-hours {  border-top: 2px solid $border; border-bottom :2px solid $border; padding: 40px 0; text-align: center;
+  .top, .bottom {
+    div { display: inline-block;
+      @media #{$tablet} { display: block;margin: 20px auto;}
+    }
+  }
+  .top { @include brandon-bold; font-size: 17px; margin-bottom: 20px;
+    span {  @include kepler-bold; font-size: 18px; letter-spacing: 2px;}
+    div {padding:0 15px; vertical-align: bottom;
+      &:nth-child(2) {
+        img { max-width: 165px; margin: 0 auto;}
+        @media #{$tablet} { line-height: 32px;}
+      }
+    }
+    a { @include link-fix; color: inherit;}
+  }
+  .bottom {
+    div:first-child { @include kepler-bold; font-size: 18px; letter-spacing: 2px;}
+    div { @include brandon-black; font-size: 12px;padding:0 30px;
+      span {  @include kepler-italic; font-size: 18px; vertical-align: bottom; text-transform: none;}
+    }
+  }
+  @media #{$tablet} { padding: 20px 0;}
+}
+
+footer { background: white; width: 100%; @include brandon-black; font-size: 12px;
+  .utility-footer { background: black; color: white;}
+  .footer-nav {  width: 95%; margin: 0 auto; max-width: 1600px;
+    .links {
+      @media #{$tablet} { display: none;}
+    }
+    .social{
+      @media #{$tablet} { text-align: center;}
+    }
+  }
+  .utility-footer, .footer-nav {  padding: 20px 2.5%;
+    @media #{$phone} {  padding: 0 2.5%;}
+  }
+  .links li {  padding-right: 30px;}
+  .social {
+    i { font-size: 16px; padding: 0 10px;
+      @media #{$tablet} { font-size: 26px;}
+    }
+  }
+  .utility-footer {
+    span {  @include kepler-italic; text-transform: none; font-size: 14px;}
+  }
+}
+
+
+
+
+//////////////////////////////////
+//////////////////////////////////
+//////////// HOMEPAGE ////////////
+//////////////////////////////////
+//////////////////////////////////
+.home-page.table {   max-width: 1300px; margin: 0 auto 20px;
+  @media #{$tablet} { width: 100%; display: block; margin-bottom: 0;
+    &:first-child { border-bottom: 3px solid $border;}
+  }
+}
+
+.homepage-cta { display: table-cell; width: 60%;vertical-align: middle; position: relative;@include link-fix; padding: 100px 20px; background-repeat: no-repeat; background-position: 50% 50%; background-size: cover;
+  @media #{$tablet} { width: 100%; display: block; padding: 40px 20px; }
+  h2 {  margin: 5px auto 20px;}
+  &.standard { width: 30%;
+    .cont {   width: 235px;
+      @media #{$tablet} { width: 100%; outline: 0; text-align: left; padding: 30px 0;
+        h3, h2 {  width: 55%; display: inline-block;}
+        .button { float: right;
+          @media #{$phone} {  padding: 14px 10px; margin-top: -13px;}
+        }
+        h2 {
+          @media #{$phone} {  font-size: 28px; width: 48%;}
+        }
+      }
+    }
+    @media #{$tablet} { width: 90%; background-image: none !important; padding: 0;margin: 0 auto;}
+  }
+  &.shell { text-align: center;
+    h2, h3 {  color: white; line-height: normal;}
+    img { margin: 30px auto 0; max-width: 28px;}
+  }
+  &.blur { padding: 0; background-color: #f6f7fb; background-position: 50% 25%;
+    .button { background-color: transparent;}
+    .cont { position: absolute;bottom: 0px;left: 0;width: 100%; padding: 100px 40px 20px; background-image: linear-gradient(to bottom, transparent 0%, rgba(246,247,251,0.9) 34%);
+      @media #{$tablet} { padding: 50px 20px 20px; position: relative;bottom: auto; left: auto;}
+    }
+    p, .button {  display: inline-block; margin: 0;}
+    p { @include brandon-bold; font-size: 16px;
+      @media #{$tablet} { display: block; margin-right: auto; text-align: center;}
+    }
+    .button { float: right;
+      @media #{$tablet} { float: none; margin-top: 10px;}
+    }
+    span {  @include kepler-bold;  color: black; text-transform: none; vertical-align: middle; margin: 0 10px; margin-bottom: 5px; display: inline-block;}
+    @media #{$tablet} { text-align: center; background-position: 25% 50%;}
+    @media #{$tablet} {  padding-top: 170px;}
+  }
+  &:hover * { color: initial;}
+  .button:hover { background: $hover; border-color: $hover; color: white;}
+}
+
+
+//////////////////////////////////
+//////////////////////////////////
+///////// SEARCH RESULTS /////////
+//////////////////////////////////
+//////////////////////////////////
+.search-page {padding-bottom: 50px;}
+.search-header {  @include gray-box;
+  h1 {  text-align: center; margin-bottom: 20px;}
+  .search-bar { position: relative; margin: 0 auto 25px; max-width: 700px;
+    input[type='search'] {  width: 100%; padding: 11px; @include brandon-black;}
+    .btn {  position: absolute; right: 0; top: 0; height: 41px;
+      @media #{$phone} {  position: relative; width: 100%; top: auto; right: auto; }
+    }
+
+  }
+}
+
+.search-results-header {  border-top: 2px solid $border; border-bottom: 2px solid $border; margin: 15px 0; padding: 15px 0; text-align: center;
+  &.no-results {  padding: 30px 0;border-bottom: 0; margin-bottom: 0;}
+  span {  @include kepler-italic; text-transform: lowercase; font-size: 24px; letter-spacing: 1px;}
+}
+
+
+//////////////////////////////////
+//////////////////////////////////
+////////// CONTACT PAGE //////////
+//////////////////////////////////
+//////////////////////////////////
+#contact .image-header {
+  .table-cell { height: 400px;
+    @media #{$tablet} { display: block; width: 100%; height: auto;}
+  }
+  .cont {  visibility: hidden;}
+  #map-canvas { height: 100%;
+    @media #{$tablet} { height: 400px; margin-top: 20px;}
+  }
+}
+
+.contact-form-wrapper { text-align: center; @include skinny-cont; padding-top: 20px;
+  h1 {  font-size: 38px; margin-bottom: 20px;}
+  input, textarea, select, button { margin-bottom: 20px;  @include brandon-black;
+    &::-webkit-input-placeholder {
+       color: black;
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+       color: black;
+    }
+
+    &::-moz-placeholder {  /* Firefox 19+ */
+       color: black;
+    }
+
+    &:-ms-input-placeholder {
+       color: black;
+    }
+  }
+  select{  display: block; width: 100%;}
+  input, textarea, select { padding: 13px;
+    &.input-full {  display: block; width: 100%;}
+    &.input-half {  display: inline-block; width: 49%; margin-right: 2%;
+      &.last {  margin-right: 0; float: right;
+        @media #{$tablet} { float: none;}
+      }
+      @media #{$tablet} { width: 100%; display: block; margin-right: 0;}
+    }
+  }
+  form {  text-align: left;
+    div { text-align: center;}
+  }
+  button {  display: inline-block; width: auto;}
+}
+
+#contact .main-content{
+  .table-cell {
+    @media #{$tablet} { display: block; width: 100%; margin: 20px auto;}
+  }
+  .table.border { border-bottom: 2px solid $border; padding-bottom: 40px;}
+  .address-hours.hours { @include gray-box; width: 30%; border-top: 0; border-bottom: 0;
+    &> * { display: block; margin: 15px auto;}
+    div { @include brandon-black; font-size: 12px; padding:0 30px; }
+    span {  @include kepler-italic; font-size: 18px; vertical-align: bottom; text-transform: none; }
+    @media #{$tablet} { width: 100%; margin: 20px auto;}
+  }
+  .address-hours.address {  width: 60%; border-top: 0; border-bottom: 0;
+    .bottom div:first-child { @include kepler-regular; font-size: 30px;}
+     @media #{$tablet} { width: 100%; margin: 20px auto;}
+  }
+}
+
+
+//////////////////////////////////
+//////////////////////////////////
+////////// SERVICES PAGE /////////
+//////////////////////////////////
+//////////////////////////////////
+.services.cont .table { margin-bottom: 20px;
+  @media #{$tablet} { display: block; margin-bottom: 0;}
+}
+
+.service, .event {  display: table-cell; width: 49%; @include gray-box; vertical-align: middle; padding: 80px 60px;
+  h2 {  max-width:270px; margin: 0 auto; font-size: 30px;}
+  p { margin: 20px auto 0;}
+  @media #{$tablet} { display: block; width: 100%; margin: 0 auto 20px; padding: 60px;}
+}
+.events { margin: 20px auto;}
+.events .table-row {  margin-bottom: 20px;
+  @media #{$tablet} { margin-bottom: 0;}
+}
+
+.service {  text-align: left; position: relative;
+  h2 {  max-width: none;}
+  img { max-width: 75px; position: absolute; left: 60px; top: 80px;
+    @media #{$phone} { position: relative ;top: auto; left: auto; margin: 0 auto 10px;}
+  }
+  h2, p { margin-left: 92px;
+    @media #{$phone} {  margin-left: 0; text-align: center;}
+  }
+}
+
+
+//////////////////////////////////
+//////////////////////////////////
+//////////// ABOUT PAGE //////////
+//////////////////////////////////
+//////////////////////////////////
+#about-us #PageContainer {  width: 100%;}
+
+#about-us {
+    header, .image-header, .margaret-davis, .jean-bruton, .margaret-bruton { @include wide-cont;
+      &.table { margin: 30px auto;}
+    }
+}
+.cont.about { text-align: center; font-size: 18px;
+  .main { @include skinny-cont; padding: 100px 0;
+    @media #{$tablet} {padding: 20px 0;}
+  }
+  .family-tradition { background-color: black; color: white;
+    h2 {  color: white;}
+    .table-cell {
+      @media #{$tablet} { padding: 20px;}
+    }
+    .table-cell.image { background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;width: 50%;
+        @media #{$tablet} { display: none;}
+      }
+  }
+  .quote {  @include gray-box; padding: 50px;
+    p:first-child { @include kepler-italic; font-size: 40px; letter-spacing: 1px; line-height: 40px;}
+    p:last-child {  @include brandon-bold; }
+   }
+   li { display: block;
+    span {  @include brandon-black; font-size: 12px; }
+   }
+   .table-cell { padding: 100px;
+      &.image { width: 30%; padding: 0;
+        @media #{$phone} { width: 90%; text-align: center; margin: 20px auto;}
+      }
+      &.image:nth-child(2) {
+        img { float: right;
+          @media #{$phone} { float: none;}
+        }
+      }
+      @media #{$tablet} { padding: 0 20px;}
+      @media #{$phone} {  display: block;}
+   }
+   .table { margin: 30px 0;}
+
+}
+
+//////////////////////////////////
+//////////////////////////////////
+/////////////// BLOG /////////////
+//////////////////////////////////
+//////////////////////////////////
+.blog-item {text-align: center; border-bottom: 2px solid $border; padding: 20px 0;
+  table-layout: auto;
+  h2 {  text-transform: capitalize;}
+  &:last-child {  border-bottom: 0;}
+  img { margin: 0 auto;}
+  .table-cell { padding: 0 20px; width: 50%;
+    &:last-child img {  display: none;}
+    @media #{$tablet} { width: 100%; padding: 0;}
+  }
+}
+.single-blog-post { margin: 30px auto;
+  h2, h3 {  text-align: center;}
+  h2 {  margin-bottom: 30px;}
+  img { margin: 0 auto;}
+}
+.blog-header.breadcrumb { padding: 11px 0;
+  .social { margin: 0;}
+  .table-cell:first-child { text-align: left;
+    img { width: 13px; display: inline; margin-right: 10px;}
+    @media #{$tablet} { display: none;}
+  }
+  .table-cell:nth-child(2) {  text-align: right;
+    @media #{$tablet}  {  text-align: center; margin-bottom: 0;}
+  }
+  .social {
+    a { color: black;
+      &:hover { color: $hover;}
+    }
+    i { font-size: 16px; padding: 0 10px;
+      // @media #{$tablet} { font-size: 26px;}
+    }
+  }
+}
+
+//////////////////////////////////
+//////////////////////////////////
+/////////////// PRESS /////////////
+//////////////////////////////////
+//////////////////////////////////
+.press-item {border-bottom: 2px solid $border; padding: 20px 0;
+  img { margin: 0 auto;}
+  .table-cell { padding: 0 20px;}
+  &:last-child {  border-bottom: 0;}
+  a { }
+}
+
+
+//////////////////////////////////
+//////////////////////////////////
+//////// RETIRED PATTERNS ////////
+//////////////////////////////////
+//////////////////////////////////
+.retired-patterns { text-align: center;}
+.grid_item.retired {  border-bottom: 0;
+  h3 {  margin-top: 10px;}
+  img { margin: 0 auto;}
+}
+.retired-pattern {  @include skinny-cont; margin: 40px auto;
+  img { margin: 0 auto;}
+}
+
+
+//////////////////////////////////
+//////////////////////////////////
+//////// COLLECTIONS PAGES ///////
+//////////////////////////////////
+//////////////////////////////////
+.top-cats { text-align: center; border-top: 2px solid $border; border-bottom: 2px solid $border; padding: 20px 0;
+  li {  padding: 0 20px;@include brandon-black;}
+  &.blog { margin-top: 20px; }
+  .gift-card {  display: none;}
+}
+
+.collection.section-header { margin: 20px auto;
+  h1 a { color: $darkgray; @include link-fix;}
+  &.left h1 { text-align: left;}
+  h1 {  text-align: center;}
+  &.left .description { text-align: left; margin: 0;}
+  .description {  @include skinny-cont; text-align: center; margin-bottom: 75px;}
+}
+
+.grid-actions {display:block; text-align: right; margin-bottom: 20px;
+  .table {  width: auto; text-align: right;}
+  .table-cell { width: 150px; vertical-align: bottom; display: inline-block; text-align: left;}
+  .search { width: 300px;
+    @media #{$phone} {  width: 100%;}
+    input { width: 100%;}
+    .input-group-btn {  display: none;}
+  }
+  @media #{$tablet} { text-align: left;}
+}
+.filter-by { margin-top: -50px;
+  select {@include brandon-black;padding: 10px 20px 10px 0;border: 0; border-bottom: 2px solid black; font-size: 12px;
+    @media #{$phone} {   font-size: 10px;}
+  }
+  &.open {
+    img { @include transform(rotate(180deg)); @include transition(all 0.2s ease);}
+  }
+  h3 {  @include brandon-black;  cursor: pointer; padding: 10px 0; margin: 0;  display: inline-block; width: 150px; position: relative;border-bottom: 2px solid black; font-size: 12px; margin-right :20px;
+    img  {  position: absolute; right: 0;max-width: 10px; top: 50%; @include transform(translate(0,-50%));}
+    @media #{$phone} {  width: 100px; font-size: 10px;}
+  }
+  .types {  @include kepler-italic; font-size: 18px; display: none; text-align: left; padding: 10px 0;border-bottom: 2px solid black; margin-top: -4px; background: white; position: relative; z-index: 2;
+    a { display: inline-block; width: 15%; padding:10px 0;
+      @media #{$tablet} { width: 32%;}
+      @media #{$phone} { width: 49%;}
+    }
+  }
+}
+
+.grid_item.product {
+  img { margin: 0 auto;}
+  h2 {  font-size: 20px; margin-bottom: 20px;}
+  p {  @include brandon-bold; letter-spacing: 1px}
+}
+
+
+
+//////////////////////////////////
+//////////////////////////////////
+/////// SINGLE PRODUCT PAGE //////
+//////////////////////////////////
+//////////////////////////////////
+.breadcrumb { text-align: center; border-bottom: 2px solid $border;border-top: 2px solid $border; padding: 15px 0; @include brandon-black; font-size: 12px;  color: #cfcfcf;
+  span:last-child { color: black;}
+  a { @include link-fix;}
+}
+.product-single { margin: 50px 0;
+  .table-cell { vertical-align: top;}
+  .images { padding-right: 7%;
+    @media #{$tablet} { padding-right: 0;}
+  }
+  .thumbnails {
+    a { border-bottom: 0;}
+  }
+  .summary { padding-left: 30px;
+    @media #{$tablet} { padding-left: 0;}
+    h3 {  font-size: 12px;
+      a { border-bottom: 0;}
+    }
+    #ProductPrice { @include brandon-medium;font-size: 20px; display: block;}
+    li {  list-style: disc; display: list-item; margin-left: 20px;}
+    .social {
+      li {  display: inline-block;}
+    }
+    .product-description, .selector-wrapper {  margin: 25px 0 15px;}
+    .gray-box { background-color: $gray; padding: 30px; border-bottom: 2px solid white;  }
+    .gray-box.registry {
+      @media #{$phone} { text-align: center;}
+    }
+    .gray-box.add-to-cart {
+      input {
+        @media #{$phone} { max-width: 170px; width: 30%; padding: 13px 10px; margin-right: 10%;}
+      }
+      .btn#AddToCart {
+        @media #{$phone} { margin-right: 0;max-width: 170px; width: 60%; padding: 14px 10px; float: right;}
+      }
+    }
+    .product-description {  font-size: 14px; line-height: 24px;}
+    .gift-reggie-button input, .gift-reggie-wishlist-button input { background-color: $darkgray;
+      &:hover { background-color: $hover;}
+    }
+    .gray-box { text-align: left; outline: 0; padding: 20px 30px;
+      button, .btn, input { margin: 10px 0; width: 170px;}
+    }
+    input[type="number"] {padding: 11px 10px; margin-right :10px;}
+    .quantity-selector, #AddToCart,.gift-reggie-button, .gift-reggie-wishlist-button
+ { display: inline-block; vertical-align: middle; margin-right: 10px;
+      @media #{$phone} {  margin-right: 0;}
+ }
+    .gray-box.added { @include brandon-bold; font-size: 12px;
+      a { display: inline-block; margin-top: 20px;}
+
+    }
+  .gift-options { margin: 0 0 25px 0;}
+  }
+
+}
+.social { margin: 20px 0;
+    h3 {  @include brandon-black;}
+    a { border-bottom: 0;}
+    h3, ul, li {  display: inline-block;}
+  }
+
+.gift-options, .gift-addon.property {
+    select, textarea {  width: 100%;}
+    .hidden { display: none;}
+    .gift-addon { padding: 10px 0;}
+  }
+
+.gift-addon.property {
+  select, textarea {  width: 75%;
+    @media #{$phone} { width: 100%;}
+  }
+
+}
+
+//////////////////////////////////
+//////////////////////////////////
+////////////// CART //////////////
+//////////////////////////////////
+//////////////////////////////////
+.cart-table {
+  .properties { padding: 5px 0;}
+  .property { padding: 5px 0;}
+  .text-center, .text-right {  text-align: center !important;}
+  th:nth-child(2) {
+    @media #{$phone} {  display: none;}
+  }
+  td {
+    &.image {
+      img { max-width: 150px;
+        @media #{$phone} {  max-width: 100px}
+      }
+      .mobile { display: none;
+        @media #{$phone} {  display: block;}
+      }
+      @media #{$phone} {  display: block;}
+    }
+    &.product-price, &.product-total{ @include brandon-medium; font-size: 20px;
+      @media #{$phone} {  font-size: 15px;}
+    }
+    &.product-name {
+      .h4 {  @include kepler-bold; font-size: 22px;}
+      h3 {  @include brandon-black; }
+      a { border-bottom: 0}
+      @media #{$phone} {  display: none;}
+    }
+    &.product-quantity, &.product-price, &.product-total  { text-align: center !important;
+      input{  width: 50px; text-align: center;}
+    }
+  }
+  tr {  border-bottom: 2px solid $border;}
+}
+.below-cart { margin: 30px auto; vertical-align: top;
+  label, .cart__subtotal-title { @include brandon-black;}
+  .cart__subtotal {  @include brandon-medium; font-size: 20px; margin-left: 30px;}
+  div { vertical-align: top;}
+  textarea {  width: 100%; height: 150px;}
+  a.button {
+    @media #{$phone} {  margin-top: 5px;}
+  }
+
+}
+.cart-totals {  text-align: right;}
+.cart__remove { @include brandon-black; display: inline-block; @include link-fix;}
+
+
+// GIFT REGGIE PAGES
+
+.giftreggie-front { padding: 40px 0;border-top: 2px solid $border !important;
+  //subnav for logged in managers
+  &.giftreggie-manager {  padding-top: 0; }
+  .giftreggie-header, .giftreggie-band {  text-align: center; padding-bottom: 15px; }
+  // @media #{$tablet} { padding: 40px 5%;}
+}
+
+// /pages/registry
+.landing {
+  .giftreggie-header { padding: 0 0 20px; @include skinny-cont;}
+  a.table-cell { border-bottom: 0;
+    h2 {margin-bottom: 10px;}
+    p.button{  color: black;
+      &:hover { color: white;}
+    }
+  }
+  .table {  margin: 20px 0;}
+  .table-cell.standard {
+    @media #{$tablet} {  width: 100%; background-image: none !important; padding: 0;margin: 0 auto; border-bottom: 2px solid black;}
+    .cont {
+      @media #{$tablet} { width: 100%; outline: 0; text-align: left; padding: 30px 0; }
+    }
+    .button {
+      @media #{$tablet} {  padding: 14px 10px; margin-top: -35px; float: right; display: inline-block; width: auto;}
+    }
+    h2 {
+      @media #{$tablet} {  font-size: 28px; width: 51%; text-align: left; display: inline-block;}
+    }
+    h3 {
+       @media #{$tablet} {width: 51%; display: inline-block;}
+    }
+    &:last-child {  border-bottom: 0;}
+  }
+
+}
+// BUILT IN LANDING
+.giftreggie-landing {
+  text-align: center;
+  h2 {  margin-bottom :10px;}
+  .giftreggie-landing-overview {  margin: 0 auto;}
+
+}
+
+.giftreggie-front .giftreggie-body {  border: 0 !important;}
+
+
+// forms
+.giftreggie-find, .giftreggie-login, .giftreggie-signup,#CustomerLoginForm {  text-align: center;
+  h3 {  text-transform: none;@include kepler-bold;  margin: 0; letter-spacing: 0;}
+  .giftreggie-header {
+    p { font-size: 18px; margin: 20px auto;}
+  }
+  form { max-width: 500px; margin: 0 auto !important; text-align: left;
+
+    p { display: inline-block; width: 48%;
+
+      input[type="text"], input[type="password"] ,input[type="email"] {  width: 100%;}
+      &:first-of-type { margin-right: 2%;
+        @media #{$phone} { width: 100%; margin-right: 0;}
+      }
+      // button
+      &:last-of-type {  width:100%; text-align: center;}
+      @media #{$phone} { width: 100%; margin-right: 0;}
+    }
+
+  }
+
+
+}
+
+.action-buttons {
+      button:nth-of-type(2) { margin-top: 10px;}
+    }
+
+.giftreggie-body.manage {
+  .registry-name {  font-size: 18px; }
+  p, td { font-size: 14px;}
+  li {  display: block;}
+}
+
+.giftreggie-guest .giftreggie-registry  .giftreggie-no-products { display: none;}
+
+.errors, .giftreggie-no-products, .giftreggie-add-products { @include brandon-black; font-size: 12px !important; background-color: $hover; text-align: center; padding: 10px; margin: 10px auto;
+  a:hover { color: white; border-color: white;}
+}
+p.giftreggie-add-products {  margin: 20px 0;}
+
+#CustomerLoginForm { padding: 50px 0; text-align: center;
+  form {  text-align: center;}
+  p { text-align: left;}
+  h1 {  text-align: center;}
+  a { display: inline-block; @include brandon-black; font-size: 12px; text-align: center; margin: 10px auto;}
+}
+.giftreggie-signup {
+  p:nth-child(n+4) {  width: 100%;}
+  // button
+  p:nth-child(7) {  text-align: center;
+    span:first-child {margin-bottom: 10px;}
+  }
+
+}
+// create
+.giftreggie-create, .giftreggie-manager {   text-align: center;
+  .registry-profile-block { margin: 60px auto; padding: 0; width: 100%; max-width: none; text-align: left;
+    p { text-align: left;}
+  }
+  h3 {  text-align: center;}
+  .registry-profile span { vertical-align: top;}
+  .before-shipping, .after-shipping { display: none;}
+  .half { display: inline-block; width: 48%; margin-right: 3.5%; vertical-align: top;
+    &:nth-of-type(2n) {
+      margin-right: 0; float: right;
+      &.after-event { float: none;}
+      @media #{$phone} { width: 100%; margin-right: 0; float: none;}
+    }
+    @media #{$phone} { width: 100%; margin-right: 0;}
+  }
+  .registry-profile input[type='text'], .registry-profile input[type='password'], .registry-profile input[type='email'], .registry-profile textarea, .registry-profile .country-selector{  width: 100%;}
+  .checkbox {
+    label, input[type="checkbox"] {  display: inline;}
+  }
+  .password-info {  display: none;}
+  p.shipping-select {  margin: 20px 0; text-align: center;}
+  @media #{$tablet} { width: 100%; margin-right: 0; padding: 30px 0;}
+}
+
+// manage
+.giftreggie-manage {
+  .giftreggie-mobile {
+    li {  display: block;font-family: "kepler-std-display",serif;font-style: normal;font-weight: 400;letter-spacing: 0; margin-bottom: 30px;
+      a { font-size: 18px; font-weight: 700;}
+    }
+  }
+}
+
+//view
+.giftreggie-view-registry {
+  &.giftreggie-mobile { text-align: center;
+    li {  border-top: 0; padding: 20px 0; border-bottom: 2px solid $border; color:inherit; }
+    .table {  display: table;}
+    .table-cell { display: table-cell; width: 50%; vertical-align: middle;
+      &:nth-child(2) {  padding-left: 10px;
+        span {  display: block; margin-top: 5px;}
+      }
+    }
+    table { margin-bottom: 0;}
+    th, td {  padding: 5px 0 !important;}
+    table tr:first-child { border-bottom: 0;}
+    .gift-option-toggle { margin: 30px 0 10px;}
+  }
+}
+button.giftreggie-add-to-cart { margin: 0;}
+
+
+// /find/firstname=Mary (search results)
+table { text-align: left; border-collapse: collapse; width: 100%;
+  thead {border-bottom: 2px solid $border; }
+  tr { vertical-align: top;
+    &:first-child { border-bottom: 2px solid $border;}
+
+    th {  text-align: left !important; border: 0 !important; padding: 20px 0 !important; @include brandon-black; }
+    td {  text-align: left !important; border: 0 !important;padding: 20px 0 !important; @include kepler-bold; font-size: 14px;
+      &:first-child { font-size: 18px; }
+    }
+  }
+
+}
+.giftreggie-view-registry {
+    th, td {
+      &:last-child { text-align: right !important;}
+    }
+    button[name="action"] {  border: 0; padding: 0; font-size: 16px;
+      &:after { display: none;}
+      &:hover { background: white;}
+    }
+  }
+
+// // registry
+.giftreggie-band {  background: transparent !important; text-align: center;}
+
+.giftreggie-admin {
+  // &.giftreggie-manager {  padding: 0; }
+  &.giftreggie-guest {
+    .giftreggie-header {  border-bottom: 0;padding: 0;}
+  }
+  .giftreggie-header {padding: 15px 5%; border-bottom: 2px solid $border;
+    h3 {  display: none;}
+    ul:hover {
+      li {  @include brandon-black; padding-bottom: 1px;
+        &.active {  border-bottom :2px solid black;}
+        &:hover { color: $hover; border-color: $hover;}
+      }
+    }
+    li {  @include brandon-black; padding-bottom: 1px; @include transition(0.2s ease all);
+      &.active {  border-bottom :2px solid black;}
+      &:hover { color: $hover; border-color: $hover;
+        a { color: $hover;}
+      }
+    }
+    a { border-bottom: 0;}
+
+  }
+  .giftreggie-edit-description {  text-align: center;
+    button {  border: 0; padding: 0; padding-bottom: 2px; border-bottom: 1px solid transparent;
+      &:hover { background: white; color: $hover; border-color: $hover;}
+    }
+  }
+
+}
+
+.giftreggie-registry-image img {  margin: 0 auto;}
+
+.share-registry, .giftreggie-wishlist {
+  h4 {  @include kepler-bold;  margin: 0; letter-spacing: 0; color: black;}
+  input[type="text"] {  text-align: center; padding: 15px; @include kepler-bold; font-size: 14px; margin: 30px 0; width: 100%;}
+}
+
+.giftreggie-registry {
+  .giftreggie-want-quantity, .registry-variant-quantity, .giftreggie-line-number {  width: 50px;}
+}
+
+ul.giftreggie-share-buttons li {  margin: 10px 12px !important;
+  @media #{$phone} { margin: 0 !important;}
+}
+
+
+//test
+.giftreggie-footer {  display: none;}
+
+// registry splash
+.body-overlay { position: fixed; width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(0,0,0,0.5); display: none;}
+.registry-splash {  position: fixed; width: 90%; max-width: 500px; top: 50%; left: 50%; @include transform(translate(-50%, -50%)); background-color: white; padding: 40px;
+  h2 {  text-align: center; margin-bottom: 20px;}
+  li {  list-style: initial; margin-left: 20px; display: list-item; margin-bottom: 10px;}
+  .close {  position: absolute; top: 30px; right: 30px; cursor: pointer;}
+  @media #{$phone} {  padding: 45px 15px;}
+}

@@ -1,0 +1,6 @@
+<h2>{{page.title}}</h2>
+<p>{{page.content}}</p>
+
+{% for tag in blog.all_tags %}
+    <li><a href="{{tag | handleize}}">{{ tag }}</a></li>
+  {% endfor %}
